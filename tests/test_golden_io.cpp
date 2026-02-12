@@ -80,8 +80,6 @@ int main(int argc, char** argv) {
   const float diff = max_abs_diff(out, golden);
   std::cout << "max_abs_diff=" << diff << "\n";
 
-  // Python onnxruntime vs C++ onnxruntime는 일반적으로 매우 가깝지만,
-  // 환경/최적화 레벨에 따라 아주 미세한 차이가 날 수 있어 1e-5를 기본으로 추천.
   const float tol = 1e-5f;
   if (diff > tol) {
     std::cerr << "FAILED: diff > tol (" << tol << ")\n";
