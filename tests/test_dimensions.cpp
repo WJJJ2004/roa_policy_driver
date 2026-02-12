@@ -22,7 +22,6 @@ int main(int argc, char** argv) {
   std::cout << "Input name: " << drv.input_name() << " dim=" << drv.input_dim() << "\n";
   std::cout << "Output name: " << drv.output_name() << " dim=" << drv.output_dim() << "\n";
 
-  // sim2sim contract (현재 네 레퍼런스)
   if (drv.input_dim() != 45) {
     std::cerr << "FAILED: expected input_dim=45 but got " << drv.input_dim() << "\n";
     return 2;
