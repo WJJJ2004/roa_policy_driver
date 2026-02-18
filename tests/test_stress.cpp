@@ -6,7 +6,7 @@
 #include <vector>
 
 int main(int argc, char** argv) {
-  std::string model = "ang_vel_observation/model_74948/policy.onnx";
+  std::string model = "onnx/12dof/policy.onnx";
   int iters = 200000;  // 기본 20만번
   if (argc >= 2) model = argv[1];
   if (argc >= 3) iters = std::max(1, std::atoi(argv[2]));

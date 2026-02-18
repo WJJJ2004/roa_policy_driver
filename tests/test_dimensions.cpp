@@ -4,8 +4,8 @@
 #include <string>
 
 static std::string default_model_path() {
-  // 현재 repo 트리 기준: ./ang_vel_observation/model_74948/policy.onnx
-  return std::string("ang_vel_observation/model_74948/policy.onnx");
+  // 현재 repo 트리 기준: ./onnx/12dof/policy.onnx
+  return std::string("onnx/12dof/policy.onnx");
 }
 
 int main(int argc, char** argv) {

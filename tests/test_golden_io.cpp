@@ -31,9 +31,9 @@ static float max_abs_diff(const std::vector<float>& a, const std::vector<float>&
 }
 
 int main(int argc, char** argv) {
-  std::string model = "ang_vel_observation/model_74948/policy.onnx";
-  std::string obs_path = "tests/data/golden_obs.bin";
-  std::string act_path = "tests/data/golden_action.bin";
+  std::string model = "onnx/12dof/policy.onnx";
+  std::string obs_path = "onnx/12dof/data/golden_obs.bin";
+  std::string act_path = "onnx/12dof/data/golden_action.bin";
 
   if (argc >= 2) model = argv[1];
   if (argc >= 3) obs_path = argv[2];
