@@ -22,7 +22,7 @@
 
 ## Repository Layout
 
-* `ang_vel_observation/model_74948/policy.onnx` : 기본 테스트 대상 모델
+* `onnx/12dof/policy.onnx` : 기본 테스트 대상 모델
 
 * `include/roa_policy_driver/policy_driver.hpp` : public API
 
@@ -96,7 +96,7 @@ int main() {
   roa::policy::Options opt;  // 기본 옵션
 
   const std::string model_path =
-      "ang_vel_observation/model_74948/policy.onnx";
+      "onnx/12dof/policy.onnx";
 
   if (!driver.load(model_path, opt)) {
     std::cerr << "Failed to load model: " << model_path << "\n";
@@ -141,8 +141,8 @@ int main() {
 
 * golden 테스트 데이터:
 
-  * `tests/data/golden_obs.bin`
+  * `onnx/12dof/data/golden_obs.bin`
 
-  * `tests/data/golden_action.bin`
+  * `onnx/12dof/data/golden_action.bin`
 
 golden 데이터는 “해당 모델 + 해당 obs 정의” 조합에서 생성된 값이어야 한다.
