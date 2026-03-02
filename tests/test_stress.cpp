@@ -1,3 +1,9 @@
+/*
+# NOTE
+구 버전 테스트 코드 > core 모듈에 대한 하드코딩 테스트
+*/
+
+
 #include "roa_policy_driver/policy_driver.hpp"
 
 #include <chrono>

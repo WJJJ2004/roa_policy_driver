@@ -123,6 +123,68 @@ int main() {
 }
 
 ```
+### Example (with wrapper)
+
+```cpp
+#include <array>
+#include <iostream>
+
+#include <roa_policy_driver/policy_driver.hpp>
+#include <roa_policy_driver/interfaces/policy_10dof_v1.hpp>
+
+int main() {
+  using Spec = roa::policy::iface::Policy10DofV1;
+
+  roa::policy::PolicyDriver driver;
+  roa::policy::Options opt;  // 기본 옵션
+
+  const std::string model_path = "onnx/10dof/policy.onnx";
+
+  if (!driver.load(model_path, opt)) {
+    std::cerr << "Failed to load model: " << model_path << "\n";
+    return 1;
+  }
+
+  // dimension safety check (권장)
+  if (driver.input_dim() != Spec::kObsDim ||
+      driver.output_dim() != Spec::kActDim) {
+    std::cerr << "Model dimension mismatch with Spec\n";
+    return 2;
+  }
+
+  // Structured observation 생성
+  Spec::Obs obs{};
+  obs.cmd = {0.3f, 0.0f, 0.1f};
+
+  for (int i = 0; i < Spec::kDof; ++i) {
+    obs.q_rel[i] = 0.0f;
+    obs.qd_rel[i] = 0.0f;
+    obs.last_action[i] = 0.0f;
+  }
+
+  obs.imu_omega_body = {0.0f, 0.0f, 0.0f};
+
+  // Pack → flat float buffer
+  float obs_buffer[Spec::kObsDim];
+  Spec::pack_obs(obs, obs_buffer);
+
+  // Inference
+  float action_buffer[Spec::kActDim];
+  if (!driver.run(obs_buffer, Spec::kObsDim,
+                  action_buffer, Spec::kActDim)) {
+    std::cerr << "Policy inference failed\n";
+    return 3;
+  }
+
+  // Unpack action
+  Spec::Act act{};
+  Spec::unpack_act(action_buffer, act);
+
+  std::cout << "action[0] = " << act.action[0] << "\n";
+
+  return 0;
+}
+```
 
 ## Realtime Usage Notes
 
