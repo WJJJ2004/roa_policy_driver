@@ -39,15 +39,23 @@ target_link_libraries(roa_policy_driver
   PUBLIC
     onnxruntime::onnxruntime
 )
+include(GNUInstallDirs)
+target_compile_definitions(roa_policy_driver
+  PUBLIC
+    ROA_POLICY_DRIVER_SHARE_DIR=\"${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}\"
+)
 
 # ---- Install ----
-include(GNUInstallDirs)
 
 install(TARGETS roa_policy_driver
   EXPORT roa_policy_driverTargets
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+install(DIRECTORY onnx/
+  DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/onnx
 )
 
 install(DIRECTORY include/

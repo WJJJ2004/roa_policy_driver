@@ -4,6 +4,12 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <string>
+
+#ifndef ROA_POLICY_DRIVER_SHARE_DIR
+#define ROA_POLICY_DRIVER_SHARE_DIR "/usr/local/share/roa_policy_driver"
+#endif
+
 
 namespace roa::policy::iface {
 
@@ -45,6 +51,10 @@ struct Policy10DofV1 {
     std::memcpy(p, o.qd_rel.data(), sizeof(float) * kDof); p += kDof;
     std::memcpy(p, o.imu_omega_body.data(), sizeof(float) * 3); p += 3;
     std::memcpy(p, o.last_action.data(), sizeof(float) * kDof);
+  }
+
+  static inline std::string default_model_path() {
+    return std::string(ROA_POLICY_DRIVER_SHARE_DIR) + "/onnx/10dof/policy.onnx";
   }
 
   // NEW: unpack (reverse of pack) — for roundtrip test / debug

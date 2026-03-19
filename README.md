@@ -73,6 +73,17 @@ find_package(roa_policy_driver REQUIRED)
 add_executable(my_app main.cpp)
 target_link_libraries(my_app PRIVATE roa::roa_policy_driver)
 ```
+## quick setup
+
+```bash
+rm -rf build
+mkdir build && cd build
+cmake ..
+cmake --build . -j
+sudo cmake --install .
+sudo ldconfig
+```
+
 
 ## API Usage
 

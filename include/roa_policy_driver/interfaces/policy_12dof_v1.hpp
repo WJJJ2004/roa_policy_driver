@@ -4,10 +4,16 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <string>
+
+#ifndef ROA_POLICY_DRIVER_SHARE_DIR
+#define ROA_POLICY_DRIVER_SHARE_DIR "/usr/local/share/roa_policy_driver"
+#endif
+
 
 namespace roa::policy::iface {
 
-struct Policy10DofV1 {
+struct Policy12DofV1 {
   static constexpr int kDof = 12;
   static constexpr int kObsDim = 42;  // 3 + 12 + 12 + 3 + 12
   static constexpr int kActDim = 12;
@@ -32,11 +38,11 @@ struct Policy10DofV1 {
     std::array<float, kDof> q_rel{};            // q - default_angles
     std::array<float, kDof> qd_rel{};           // qd
     std::array<float, 3> imu_omega_body{};      // gyro body
-    std::array<float, kDof> last_action{};      // raw prev action (10)
+    std::array<float, kDof> last_action{};      // raw prev action 
   };
 
   struct Act {
-    std::array<float, kDof> action{};           // raw policy output (10)
+    std::array<float, kDof> action{};           // raw policy output
   };
 
   // Pack order: cmd(3), q_rel(12), qd_rel(12), imu(3), last_action(12)
@@ -62,6 +68,11 @@ struct Policy10DofV1 {
   static inline void unpack_act(const float* in10, Act& a) noexcept {
     std::memcpy(a.action.data(), in10, sizeof(float) * kDof);
   }
+
+  static inline std::string default_model_path() {
+    return std::string(ROA_POLICY_DRIVER_SHARE_DIR) + "/onnx/12dof/policy.onnx";
+  }
+
 
   // NEW: pack_act (optional, but nice symmetry + future tests)
   static inline void pack_act(const Act& a, float* out10) noexcept {
