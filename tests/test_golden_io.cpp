@@ -50,7 +50,7 @@ int main(int argc, char** argv) {
     std::cerr << "FAILED: load model: " << model << "\n";
     return 1;
   }
-  if (drv.input_dim() != 45 || drv.output_dim() != 13) {
+  if (drv.input_dim() != 42 || drv.output_dim() != 12) {
     std::cerr << "FAILED: unexpected dims: in=" << drv.input_dim()
               << " out=" << drv.output_dim() << "\n";
     return 2;
