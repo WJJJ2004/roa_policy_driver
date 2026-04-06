@@ -17,6 +17,7 @@ struct Policy12DofV1 {
   static constexpr int kDof = 12;
   static constexpr int kObsDim = 42;  // 3 + 12 + 12 + 3 + 12
   static constexpr int kActDim = 12;
+  static constexpr float kActionScale = 0.5f;
 
   enum Joint : int {
     L_HIP_PITCH = 0,
@@ -73,21 +74,20 @@ struct Policy12DofV1 {
     return std::string(ROA_POLICY_DRIVER_SHARE_DIR) + "/onnx/12dof/policy.onnx";
   }
 
-
-  // NEW: pack_act (optional, but nice symmetry + future tests)
   static inline void pack_act(const Act& a, float* out10) noexcept {
     std::memcpy(out10, a.action.data(), sizeof(float) * kDof);
   }
 
-  static inline void action_to_q_target(
-      const Act& a,
-      const std::array<float, kDof>& default_angles,
-      float action_scale,
-      std::array<float, kDof>& q_target_out) noexcept
+  static inline std::array<float, kActDim> action_to_q_target(
+      const std::array<float, kActDim>& raw_action,
+      const std::array<float, kActDim>& default_angles,
+      float action_scale) noexcept
   {
-    for (int i = 0; i < kDof; ++i) {
-      q_target_out[i] = default_angles[i] + action_scale * a.action[i];
+    std::array<float, kActDim> q_target{};
+    for (int i = 0; i < kActDim; ++i) {
+      q_target[i] = default_angles[i] + action_scale * raw_action[i];
     }
+    return q_target;
   }
 };
 
