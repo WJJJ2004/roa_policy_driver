@@ -89,6 +89,18 @@ struct Policy12DofV1 {
     }
     return q_target;
   }
+
+  static inline std::array<float, kActDim> q_target_to_action(
+      const std::array<float, kActDim>& q_target,
+      const std::array<float, kActDim>& default_angles,
+      float action_scale) noexcept
+  {
+    std::array<float, kActDim> action{};
+    for (int i = 0; i < kActDim; ++i) {
+      action[i] = (q_target[i] - default_angles[i]) / action_scale;
+    }
+    return action;
+  }
 };
 
 }  // namespace roa::policy::iface
